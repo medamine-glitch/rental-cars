@@ -1,0 +1,190 @@
+{% extends 'base.html' %}
+
+{% block title %}RentalCars - Premium Car Rental Service{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="relative h-screen flex items-center">
+    <div class="absolute inset-0 z-0">
+        <div class="absolute inset-0 bg-gradient-to-r from-primary/90 to-primary/70"></div>
+        <img src="{% static 'images/hero-bg.jpg' %}" alt="Luxury car" class="w-full h-full object-cover">
+    </div>
+    
+    <div class="container mx-auto px-4 relative z-10">
+        <div class="max-w-3xl text-white" data-aos="fade-up">
+            <h1 class="text-5xl md:text-6xl font-bold mb-6">
+                Drive Your Dreams
+                <span class="block text-secondary mt-2">Premium Car Rental</span>
+            </h1>
+            <p class="text-xl mb-8">Experience luxury and comfort with our premium fleet of vehicles. Book your perfect ride today.</p>
+            <a href="{% url 'cars' %}" class="inline-block bg-accent hover:bg-accent/90 text-white font-semibold px-8 py-4 rounded-lg transition-colors animate-hover">
+                Browse Our Fleet
+            </a>
+        </div>
+    </div>
+
+    <div class="absolute bottom-10 left-0 right-0 text-center">
+        <a href="#featured-cars" class="text-white animate-bounce inline-block">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+            </svg>
+        </a>
+    </div>
+</section>
+
+<!-- Featured Cars Section -->
+<section id="featured-cars" class="py-20 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16" data-aos="fade-up">
+            <h2 class="text-4xl font-bold text-primary mb-4">Featured Vehicles</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">Discover our selection of premium vehicles, carefully chosen to meet your needs and exceed your expectations.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for car in featured_cars %}
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden animate-hover" data-aos="fade-up" data-aos-delay="{{ forloop.counter|multiply:100 }}">
+                <div class="relative">
+                    <img src="{{ car.main_image.url }}" alt="{{ car.name }}" class="w-full h-64 object-cover">
+                    {% if car.is_featured %}
+                    <div class="absolute top-4 right-4 bg-accent text-white px-3 py-1 rounded-full text-sm font-semibold">
+                        Featured
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-primary mb-2">{{ car.name }}</h3>
+                    <div class="flex items-center mb-4">
+                        <div class="flex items-center text-yellow-400">
+                            {% for i in "12345" %}
+                            {% if forloop.counter <= car.rating %}
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                            </svg>
+                            {% else %}
+                            <svg class="w-5 h-5 fill-current text-gray-300" viewBox="0 0 24 24">
+                                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                            </svg>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                        <span class="text-gray-600 ml-2">({{ car.review_count }} reviews)</span>
+                    </div>
+                    <div class="flex justify-between items-center mb-4">
+                        <div class="text-sm text-gray-600">
+                            <p>{{ car.transmission }}</p>
+                            <p>{{ car.fuel_type }}</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-accent font-bold text-2xl">${{ car.price_per_day }}</p>
+                            <p class="text-gray-600 text-sm">per day</p>
+                        </div>
+                    </div>
+                    <a href="{% url 'car_detail' car.slug %}" class="block w-full text-center bg-primary hover:bg-primary/90 text-white font-semibold px-4 py-2 rounded-lg transition-colors">
+                        View Details
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="text-center mt-12">
+            <a href="{% url 'cars' %}" class="inline-block bg-accent hover:bg-accent/90 text-white font-semibold px-8 py-4 rounded-lg transition-colors animate-hover">
+                View All Cars
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Why Choose Us Section -->
+<section class="py-20 bg-background">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16" data-aos="fade-up">
+            <h2 class="text-4xl font-bold text-primary mb-4">Why Choose Us</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">We provide the best car rental experience with our premium services and customer support.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="text-center p-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="w-16 h-16 mx-auto mb-4 text-secondary">
+                    <svg class="w-full h-full" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold text-primary mb-2">Quality Guaranteed</h3>
+                <p class="text-gray-600">All our vehicles are thoroughly inspected and maintained to ensure your safety and comfort.</p>
+            </div>
+
+            <div class="text-center p-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="w-16 h-16 mx-auto mb-4 text-secondary">
+                    <svg class="w-full h-full" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold text-primary mb-2">24/7 Support</h3>
+                <p class="text-gray-600">Our customer support team is always available to assist you with any queries or concerns.</p>
+            </div>
+
+            <div class="text-center p-6" data-aos="fade-up" data-aos-delay="300">
+                <div class="w-16 h-16 mx-auto mb-4 text-secondary">
+                    <svg class="w-full h-full" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold text-primary mb-2">Best Rates</h3>
+                <p class="text-gray-600">We offer competitive prices and special deals to provide you with the best value for your money.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="py-20 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16" data-aos="fade-up">
+            <h2 class="text-4xl font-bold text-primary mb-4">What Our Customers Say</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">Read what our satisfied customers have to say about their experience with us.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {% for testimonial in testimonials %}
+            <div class="bg-background p-6 rounded-lg shadow-lg" data-aos="fade-up" data-aos-delay="{{ forloop.counter|multiply:100 }}">
+                <div class="flex items-center mb-4">
+                    <img src="{{ testimonial.avatar.url }}" alt="{{ testimonial.name }}" class="w-12 h-12 rounded-full object-cover">
+                    <div class="ml-4">
+                        <h4 class="font-bold text-primary">{{ testimonial.name }}</h4>
+                        <div class="flex items-center text-yellow-400">
+                            {% for i in "12345" %}
+                            {% if forloop.counter <= testimonial.rating %}
+                            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                            </svg>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <p class="text-gray-600">{{ testimonial.comment }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Partners Section -->
+<section class="py-20 bg-background">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16" data-aos="fade-up">
+            <h2 class="text-4xl font-bold text-primary mb-4">Our Partners</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">We work with the best in the industry to provide you with top-quality vehicles and services.</p>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 items-center">
+            {% for partner in partners %}
+            <div class="grayscale hover:grayscale-0 transition-all duration-300" data-aos="fade-up" data-aos-delay="{{ forloop.counter|multiply:100 }}">
+                <img src="{{ partner.logo.url }}" alt="{{ partner.name }}" class="mx-auto h-12 object-contain">
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %} 

@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+
+{% block title %}About Us - RentalCars{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="relative h-[40vh] flex items-center">
+    <div class="absolute inset-0 z-0">
+        <div class="absolute inset-0 bg-gradient-to-r from-primary/90 to-primary/70"></div>
+        <img src="{% static 'images/about-hero.jpg' %}" alt="About Us" class="w-full h-full object-cover">
+    </div>
+    
+    <div class="container mx-auto px-4 relative z-10">
+        <div class="max-w-3xl text-white" data-aos="fade-up">
+            <h1 class="text-5xl md:text-6xl font-bold mb-6">About Us</h1>
+            <p class="text-xl opacity-90">Learn about our journey and commitment to providing exceptional car rental services.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Our Story Section -->
+<section class="py-20 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div data-aos="fade-right">
+                <img src="{% static 'images/about-story.jpg' %}" alt="Our Story" class="rounded-lg shadow-lg w-full">
+            </div>
+            <div data-aos="fade-left">
+                <h2 class="text-4xl font-bold text-primary mb-6">Our Story</h2>
+                <p class="text-gray-600 mb-6">Founded in 2010, RentalCars has grown from a small local car rental service to one of the most trusted names in the industry. Our journey began with a simple mission: to provide high-quality vehicles and exceptional service to our customers.</p>
+                <p class="text-gray-600 mb-6">Today, we're proud to serve thousands of satisfied customers with our premium fleet of vehicles and dedicated customer support. Our commitment to excellence and customer satisfaction remains at the heart of everything we do.</p>
+                <div class="grid grid-cols-3 gap-6 text-center">
+                    <div>
+                        <h3 class="text-3xl font-bold text-accent mb-2">500+</h3>
+                        <p class="text-gray-600">Premium Cars</p>
+                    </div>
+                    <div>
+                        <h3 class="text-3xl font-bold text-accent mb-2">50k+</h3>
+                        <p class="text-gray-600">Happy Customers</p>
+                    </div>
+                    <div>
+                        <h3 class="text-3xl font-bold text-accent mb-2">15+</h3>
+                        <p class="text-gray-600">Years Experience</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Our Values Section -->
+<section class="py-20 bg-background">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16" data-aos="fade-up">
+            <h2 class="text-4xl font-bold text-primary mb-4">Our Values</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">The principles that guide us in providing exceptional service to our customers.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-white p-8 rounded-lg shadow-lg text-center" data-aos="fade-up" data-aos-delay="100">
+                <div class="w-16 h-16 mx-auto mb-6 text-secondary">
+                    <svg class="w-full h-full" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold text-primary mb-4">Quality First</h3>
+                <p class="text-gray-600">We maintain the highest standards in our vehicle fleet and services, ensuring your safety and comfort.</p>
+            </div>
+
+            <div class="bg-white p-8 rounded-lg shadow-lg text-center" data-aos="fade-up" data-aos-delay="200">
+                <div class="w-16 h-16 mx-auto mb-6 text-secondary">
+                    <svg class="w-full h-full" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold text-primary mb-4">Customer Focus</h3>
+                <p class="text-gray-600">Your satisfaction is our priority. We go above and beyond to meet your needs and exceed expectations.</p>
+            </div>
+
+            <div class="bg-white p-8 rounded-lg shadow-lg text-center" data-aos="fade-up" data-aos-delay="300">
+                <div class="w-16 h-16 mx-auto mb-6 text-secondary">
+                    <svg class="w-full h-full" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold text-primary mb-4">Innovation</h3>
+                <p class="text-gray-600">We continuously improve our services and embrace new technologies to enhance your rental experience.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Timeline Section -->
+<section class="py-20 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16" data-aos="fade-up">
+            <h2 class="text-4xl font-bold text-primary mb-4">Our Journey</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">A timeline of our growth and achievements over the years.</p>
+        </div>
+
+        <div class="relative">
+            <!-- Timeline Line -->
+            <div class="absolute left-1/2 transform -translate-x-1/2 h-full w-0.5 bg-primary"></div>
+
+            <!-- Timeline Items -->
+            <div class="space-y-12">
+                <div class="relative" data-aos="fade-right">
+                    <div class="flex items-center">
+                        <div class="w-1/2 pr-8 text-right">
+                            <h3 class="text-xl font-bold text-primary mb-2">2010</h3>
+                            <p class="text-gray-600">Founded RentalCars with a small fleet of 10 vehicles</p>
+                        </div>
+                        <div class="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-accent rounded-full"></div>
+                        <div class="w-1/2 pl-8"></div>
+                    </div>
+                </div>
+
+                <div class="relative" data-aos="fade-left">
+                    <div class="flex items-center">
+                        <div class="w-1/2 pr-8"></div>
+                        <div class="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-accent rounded-full"></div>
+                        <div class="w-1/2 pl-8">
+                            <h3 class="text-xl font-bold text-primary mb-2">2015</h3>
+                            <p class="text-gray-600">Expanded to multiple locations and grew our fleet to 100+ vehicles</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative" data-aos="fade-right">
+                    <div class="flex items-center">
+                        <div class="w-1/2 pr-8 text-right">
+                            <h3 class="text-xl font-bold text-primary mb-2">2018</h3>
+                            <p class="text-gray-600">Launched our mobile app and online booking platform</p>
+                        </div>
+                        <div class="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-accent rounded-full"></div>
+                        <div class="w-1/2 pl-8"></div>
+                    </div>
+                </div>
+
+                <div class="relative" data-aos="fade-left">
+                    <div class="flex items-center">
+                        <div class="w-1/2 pr-8"></div>
+                        <div class="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-accent rounded-full"></div>
+                        <div class="w-1/2 pl-8">
+                            <h3 class="text-xl font-bold text-primary mb-2">2020</h3>
+                            <p class="text-gray-600">Introduced electric vehicles to our fleet and implemented contactless rentals</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative" data-aos="fade-right">
+                    <div class="flex items-center">
+                        <div class="w-1/2 pr-8 text-right">
+                            <h3 class="text-xl font-bold text-primary mb-2">2023</h3>
+                            <p class="text-gray-600">Reached milestone of 500+ premium vehicles and 50,000+ satisfied customers</p>
+                        </div>
+                        <div class="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-accent rounded-full"></div>
+                        <div class="w-1/2 pl-8"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Team Section -->
+<section class="py-20 bg-background">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16" data-aos="fade-up">
+            <h2 class="text-4xl font-bold text-primary mb-4">Our Leadership Team</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">Meet the people who drive our success and ensure your satisfaction.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {% for member in team_members %}
+            <div class="text-center" data-aos="fade-up" data-aos-delay="{{ forloop.counter|multiply:100 }}">
+                <img src="{{ member.photo.url }}" alt="{{ member.name }}" class="w-48 h-48 rounded-full mx-auto mb-6 object-cover">
+                <h3 class="text-xl font-bold text-primary mb-2">{{ member.name }}</h3>
+                <p class="text-secondary font-semibold mb-4">{{ member.position }}</p>
+                <p class="text-gray-600">{{ member.bio }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %} 

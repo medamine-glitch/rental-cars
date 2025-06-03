@@ -1,0 +1,272 @@
+{% extends 'base.html' %}
+
+{% block title %}Our Fleet - RentalCars{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="bg-primary py-20">
+    <div class="container mx-auto px-4">
+        <div class="text-center text-white">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4" data-aos="fade-up">Our Fleet</h1>
+            <p class="text-xl opacity-90 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="100">
+                Choose from our wide selection of premium vehicles
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Cars List Section -->
+<section class="py-12 bg-background">
+    <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            <!-- Filters Sidebar -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-lg shadow-lg p-6 sticky top-4" data-aos="fade-right">
+                    <h3 class="text-xl font-bold text-primary mb-6">Filters</h3>
+                    <form method="get" action="{% url 'cars' %}" id="filter-form">
+                        <!-- Brand Filter -->
+                        <div class="mb-6">
+                            <label class="block text-gray-700 font-semibold mb-2">Brand</label>
+                            <select name="brand" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:border-primary">
+                                <option value="">All Brands</option>
+                                {% for brand in brands %}
+                                <option value="{{ brand.id }}" {% if selected_brand == brand.id %}selected{% endif %}>
+                                    {{ brand.name }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Price Range Filter -->
+                        <div class="mb-6">
+                            <label class="block text-gray-700 font-semibold mb-2">Price Range (per day)</label>
+                            <div class="flex items-center space-x-4">
+                                <input type="number" name="min_price" placeholder="Min" value="{{ min_price }}"
+                                    class="w-1/2 border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:border-primary">
+                                <input type="number" name="max_price" placeholder="Max" value="{{ max_price }}"
+                                    class="w-1/2 border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:border-primary">
+                            </div>
+                        </div>
+
+                        <!-- Transmission Filter -->
+                        <div class="mb-6">
+                            <label class="block text-gray-700 font-semibold mb-2">Transmission</label>
+                            <div class="space-y-2">
+                                <label class="flex items-center">
+                                    <input type="radio" name="transmission" value="automatic" {% if transmission == 'automatic' %}checked{% endif %}
+                                        class="text-primary focus:ring-primary">
+                                    <span class="ml-2">Automatic</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="radio" name="transmission" value="manual" {% if transmission == 'manual' %}checked{% endif %}
+                                        class="text-primary focus:ring-primary">
+                                    <span class="ml-2">Manual</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Fuel Type Filter -->
+                        <div class="mb-6">
+                            <label class="block text-gray-700 font-semibold mb-2">Fuel Type</label>
+                            <div class="space-y-2">
+                                {% for fuel_type in fuel_types %}
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="fuel_type" value="{{ fuel_type.0 }}"
+                                        {% if fuel_type.0 in selected_fuel_types %}checked{% endif %}
+                                        class="text-primary focus:ring-primary">
+                                    <span class="ml-2">{{ fuel_type.1 }}</span>
+                                </label>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <!-- Seats Filter -->
+                        <div class="mb-6">
+                            <label class="block text-gray-700 font-semibold mb-2">Seats</label>
+                            <select name="seats" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:border-primary">
+                                <option value="">Any</option>
+                                {% for seat in seats_options %}
+                                <option value="{{ seat }}" {% if selected_seats == seat %}selected{% endif %}>
+                                    {{ seat }} seats
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Filter Actions -->
+                        <div class="flex space-x-4">
+                            <button type="submit"
+                                class="flex-1 bg-primary hover:bg-primary/90 text-white font-semibold px-4 py-2 rounded-lg transition-colors">
+                                Apply Filters
+                            </button>
+                            <button type="reset"
+                                class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold px-4 py-2 rounded-lg transition-colors">
+                                Reset
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Cars Grid -->
+            <div class="lg:col-span-3">
+                <!-- Sort Options -->
+                <div class="flex justify-between items-center mb-6" data-aos="fade-up">
+                    <p class="text-gray-600">Showing {{ cars.start_index }} - {{ cars.end_index }} of {{ cars.paginator.count }} cars</p>
+                    <select name="sort" class="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:border-primary"
+                        onchange="document.getElementById('filter-form').submit()">
+                        <option value="price_asc" {% if sort == 'price_asc' %}selected{% endif %}>Price: Low to High</option>
+                        <option value="price_desc" {% if sort == 'price_desc' %}selected{% endif %}>Price: High to Low</option>
+                        <option value="rating" {% if sort == 'rating' %}selected{% endif %}>Rating</option>
+                        <option value="newest" {% if sort == 'newest' %}selected{% endif %}>Newest First</option>
+                    </select>
+                </div>
+
+                <!-- Cars Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {% for car in cars %}
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden animate-hover" data-aos="fade-up" data-aos-delay="{{ forloop.counter|multiply:100 }}">
+                        <div class="relative">
+                            <img src="{{ car.main_image.url }}" alt="{{ car.name }}" class="w-full h-64 object-cover">
+                            {% if car.is_featured %}
+                            <div class="absolute top-4 right-4 bg-accent text-white px-3 py-1 rounded-full text-sm font-semibold">
+                                Featured
+                            </div>
+                            {% endif %}
+                            {% if not car.is_available %}
+                            <div class="absolute inset-0 bg-black/50 flex items-center justify-center">
+                                <span class="text-white font-bold text-xl">Currently Unavailable</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-primary mb-2">{{ car.name }}</h3>
+                            <div class="flex items-center mb-4">
+                                <div class="flex items-center text-yellow-400">
+                                    {% for i in "12345" %}
+                                    {% if forloop.counter <= car.rating %}
+                                    <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                                        <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                                    </svg>
+                                    {% else %}
+                                    <svg class="w-5 h-5 fill-current text-gray-300" viewBox="0 0 24 24">
+                                        <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                                    </svg>
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                                <span class="text-gray-600 ml-2">({{ car.review_count }} reviews)</span>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4 mb-4 text-sm text-gray-600">
+                                <div class="flex items-center">
+                                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 4H5a2 2 0 00-2 2v12a2 2 0 002 2h14a2 2 0 002-2V6a2 2 0 00-2-2z"/>
+                                    </svg>
+                                    {{ car.transmission }}
+                                </div>
+                                <div class="flex items-center">
+                                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                    </svg>
+                                    {{ car.fuel_type }}
+                                </div>
+                                <div class="flex items-center">
+                                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                                    </svg>
+                                    {{ car.seats }} seats
+                                </div>
+                                <div class="flex items-center">
+                                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/>
+                                    </svg>
+                                    {{ car.engine }}
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <div class="text-right">
+                                    <p class="text-accent font-bold text-2xl">${{ car.price_per_day }}</p>
+                                    <p class="text-gray-600 text-sm">per day</p>
+                                </div>
+                                <a href="{% url 'car_detail' car.slug %}"
+                                    class="inline-block bg-primary hover:bg-primary/90 text-white font-semibold px-6 py-2 rounded-lg transition-colors">
+                                    View Details
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="col-span-2 text-center py-12">
+                        <svg class="w-16 h-16 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                        </svg>
+                        <h3 class="text-xl font-bold text-gray-700 mb-2">No Cars Found</h3>
+                        <p class="text-gray-600">Try adjusting your filters to find available cars.</p>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Pagination -->
+                {% if cars.has_other_pages %}
+                <div class="mt-8 flex justify-center" data-aos="fade-up">
+                    <div class="flex space-x-2">
+                        {% if cars.has_previous %}
+                        <a href="?page={{ cars.previous_page_number }}"
+                            class="px-4 py-2 bg-white text-primary border border-primary rounded-lg hover:bg-primary hover:text-white transition-colors">
+                            Previous
+                        </a>
+                        {% endif %}
+
+                        {% for num in cars.paginator.page_range %}
+                        {% if cars.number == num %}
+                        <span class="px-4 py-2 bg-primary text-white rounded-lg">{{ num }}</span>
+                        {% elif num > cars.number|add:'-3' and num < cars.number|add:'3' %}
+                        <a href="?page={{ num }}"
+                            class="px-4 py-2 bg-white text-primary border border-primary rounded-lg hover:bg-primary hover:text-white transition-colors">
+                            {{ num }}
+                        </a>
+                        {% endif %}
+                        {% endfor %}
+
+                        {% if cars.has_next %}
+                        <a href="?page={{ cars.next_page_number }}"
+                            class="px-4 py-2 bg-white text-primary border border-primary rounded-lg hover:bg-primary hover:text-white transition-colors">
+                            Next
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Handle filter form reset
+    document.querySelector('button[type="reset"]').addEventListener('click', function(e) {
+        e.preventDefault();
+        const form = document.getElementById('filter-form');
+        form.reset();
+        form.submit();
+    });
+
+    // Handle price range inputs
+    const minPrice = document.querySelector('input[name="min_price"]');
+    const maxPrice = document.querySelector('input[name="max_price"]');
+
+    minPrice.addEventListener('change', function() {
+        if (this.value && maxPrice.value && parseInt(this.value) > parseInt(maxPrice.value)) {
+            maxPrice.value = this.value;
+        }
+    });
+
+    maxPrice.addEventListener('change', function() {
+        if (this.value && minPrice.value && parseInt(this.value) < parseInt(minPrice.value)) {
+            minPrice.value = this.value;
+        }
+    });
+</script>
+{% endblock %} 
